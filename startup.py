@@ -1,3 +1,4 @@
+print "Importing..."
 from jarvis import utils, facefind
 
 # TODO: make specs
@@ -5,7 +6,9 @@ from jarvis import utils, facefind
 	# have some verbose arguments and such
 	# and display
 
+print "Starting up..."
 # startup
+
 fb_browser = facefind.fb_login("jarvis/facebook_login.txt")
 
 # prompt loop
@@ -15,12 +18,12 @@ while (continue_loop):
 	line = raw_input().strip()
 	if line in ['q', 'exit', 'quit']:
 		continue_loop = False
-	elif 'face' in line: # TODO: find out why <elif line is 'face'> fails
+	elif line == 'face':
 		# get temp image, save to file
 		imgname = utils.quick_snapshot(directory="/home/mark/jarvis/Photos/")
 		person = facefind.fb_identify_face(fb_browser, imgname)
 		utils.speak("welcome, {0}".format(person))
-	elif line is '':
+	elif line == '':
 		continue
 	else:
 		print "Line not understood: {0}".format(line)

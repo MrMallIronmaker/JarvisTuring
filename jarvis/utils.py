@@ -8,8 +8,8 @@ from time import strftime, gmtime
 def quick_snapshot(directory="/tmp", size=(640, 480)):
 	pygame.init()
 	pygame.camera.init()
-	pygame.camera.init() # TODO: remove this
-	cam = pygame.camera.Camera("/dev/video0", size)
+	# TODO: modularize the video feed choice
+	cam = pygame.camera.Camera("/dev/video1", size)
 	cam.start()
 	image = cam.get_image()
 
@@ -17,8 +17,7 @@ def quick_snapshot(directory="/tmp", size=(640, 480)):
 	display = pygame.display.set_mode(size, 0)
 	display.blit(image, (0,0))
 	pygame.display.flip()
-
-	image_name = join(directory, strftime("%d%m%Y%H%M%S", gmtime()) + ".jpeg")
+	image_name = join(directory, strftime("%Y%m%d%H%M%S", gmtime()) + ".jpeg")
 	pygame.image.save(image, image_name)
 	cam.stop()
 
@@ -26,4 +25,8 @@ def quick_snapshot(directory="/tmp", size=(640, 480)):
 
 def speak(string):
 	text = '"' + string + '"'
-	call('espeak ' + text, shell=True)
+	call('espeak -s 130 -v mb-en1 ' + text, shell=True)
+
+def speak_file(filename):
+	# TODO: somehow sanitize the input
+	call('espeak -s 130 -v mb-en1 -f ' + filename, shell=True)

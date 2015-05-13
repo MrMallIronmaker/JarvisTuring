@@ -44,7 +44,6 @@ def fb_identify_face(driver, image_name):
 		elems = [i for i in elems if i.is_displayed()]
 	assert(len(elems) == 1)
 	elems[0].click()
-	sleep(1)
 	source = driver.page_source
 	naming = search("You added a new photo .*?>(.*?)</a>", source)
 	# TODO: catch if naming is None
