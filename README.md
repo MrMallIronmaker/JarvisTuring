@@ -5,11 +5,11 @@ to make use of many existing libraries and functionalities as much as possible
 to provide quick access to high-level tasks. Here is an example:
 
 ```py
->>> from jarvis import utils, facefind
+>>> from jarvis import utils, facefind, espeak
 >>> img_name = utils.quick_snapshot()
 >>> fb_browser = facefind.fb_login("jarvis/facebook_login.txt")
 >>> person_name = facefind.fb_identify_face(fb_browser, img_name)
->>> utils.speak("Hello, {0}".format(person))
+>>> espeak.speak("Hello, {0}".format(person))
 ```
 
 In five lines of code, Jarvis takes a photo, determines the faces in the photo
@@ -22,6 +22,6 @@ footprint. In fact, the short code snippet above requires the following as depen
   - Selenium (for browser automation)
   - espeak and mbrola (for speaking)
 
-### Features in Development Focus
+### Features in Development
 DJ Jarvis: Speak a natural language request like "Play some Daft Punk" or
 "Put my Pandora on Shuffle" and the music you requested begins to play.
