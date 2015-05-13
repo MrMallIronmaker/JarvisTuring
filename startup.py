@@ -21,8 +21,11 @@ while (continue_loop):
 	elif line == 'face':
 		# get temp image, save to file
 		imgname = utils.quick_snapshot(directory="/home/mark/jarvis/Photos/")
-		person = facefind.fb_identify_face(fb_browser, imgname)
-		utils.speak("welcome, {0}".format(person))
+		person = facefind.fb_identify_face(fb_browser, imgname, delete_photo=True)
+		if person is None:
+			utils.speak("I'm sorry, I can't recognize you.")
+		else:
+			utils.speak("welcome, {0}".format(person))
 	elif line == '':
 		continue
 	else:

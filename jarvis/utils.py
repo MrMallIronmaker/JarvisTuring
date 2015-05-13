@@ -1,7 +1,7 @@
 import pygame
 import pygame.camera
 from pygame.locals import * # TODO: remove import star
-from os.path import join
+from os.path import join, isfile
 from subprocess import call
 from time import strftime, gmtime
 
@@ -25,8 +25,11 @@ def quick_snapshot(directory="/tmp", size=(640, 480)):
 
 def speak(string):
 	text = '"' + string + '"'
+	# 130 wpm, mbrola's en1 voice.
 	call('espeak -s 130 -v mb-en1 ' + text, shell=True)
 
 def speak_file(filename):
-	# TODO: somehow sanitize the input
+	if not isfile(filename):
+		print "File not found: {0}".format(filename)
+	# 130 wpm, mbrola's en1 voice.
 	call('espeak -s 130 -v mb-en1 -f ' + filename, shell=True)

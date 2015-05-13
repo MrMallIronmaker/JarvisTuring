@@ -6,7 +6,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 from re import search
-
+from os import remove
+from os.path import isfile
 
 def fb_login(id_file_name):
 	# startup
@@ -25,26 +26,31 @@ def fb_login(id_file_name):
 	driver.get("https://www.facebook.com")
 	return driver
 
-def fb_identify_face(driver, image_name):
+def fb_identify_face(driver, image_name, delete_photo=False):
 	# return to base
-	if driver.current_url is not "https://www.facebook.com":
+	if driver.current_url != "https://www.facebook.com":
 		driver.get("https://www.facebook.com")
+
+	if not isfile(image_name):
+		print "File does not exist: {0}".format(image_name)
+		return None
 
 	driver.find_element(By.NAME, "composer_unpublished_photo[]").send_keys(image_name)
 
-	# TODO: use the fact that the name comes up before posting to grab the HTML without even posting
+	sleep(8) 
+	# wait for upload and for identification
 
-	WebDriverWait(driver, 10).until(
-	        EC.presence_of_element_located((By.XPATH, "//button[contains(., 'Post')]"))
-	    )
-	sleep(6) # TODO: find some way to wait until this loads instead of waiting.
-	elems = []
-	while (len(elems) != 1):
-		elems = driver.find_elements(By.XPATH, "//button[contains(., 'Post')]")
-		elems = [i for i in elems if i.is_displayed()]
-	assert(len(elems) == 1)
-	elems[0].click()
 	source = driver.page_source
-	naming = search("You added a new photo .*?>(.*?)</a>", source)
-	# TODO: catch if naming is None
+	naming = search('<i class="faceSuggestion"></i>(.*?)<', source)
+
+	if delete_photo:
+		remove(image_name)
+
+	# remove the uploaded photo so the browser doesn't yell at us
+	button = driver.find_element(By.XPATH, "//button[contains(@class, \"fbVaultGridPhotoItemRemoveButton\")]")
+	button.click()
+
+	if naming is None:
+		return None
+
 	return naming.group(1)
