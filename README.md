@@ -25,3 +25,4 @@ footprint. In fact, the short code snippet above requires the following as depen
 ### Features in Development
 DJ Jarvis: Speak a natural language request like "Play some Daft Punk" or
 "Put my Pandora on Shuffle" and the music you requested begins to play.
+Then, while it's playing, it's possible to say "Jarvis, send me these lyrics," or "Who is the artist for this song?" and Jarvis will answer (or email the lyrics).
