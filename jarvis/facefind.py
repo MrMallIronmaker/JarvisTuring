@@ -9,6 +9,7 @@ from re import search
 from os import remove
 from os.path import isfile
 
+
 def fb_login(id_file_name):
 	# startup
 	driver = webdriver.Firefox()
@@ -32,7 +33,7 @@ def fb_identify_face(driver, image_name, delete_photo=False):
 		driver.get("https://www.facebook.com")
 
 	if not isfile(image_name):
-		print "File does not exist: {0}".format(image_name)
+		vprint (1, "File does not exist: {0}".format(image_name))
 		return None
 
 	driver.find_element(By.NAME, "composer_unpublished_photo[]").send_keys(image_name)

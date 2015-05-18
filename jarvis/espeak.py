@@ -19,7 +19,7 @@ class Voice:
 
 	def speak_file(filename):
 		if not isfile(filename):
-			print "File not found: {0}".format(filename)
+			vprint(1, "File not found: {0}".format(filename))
 		call(self.assemble_command() + "-f " + filename, shell=True)
 
 def speak(string):
