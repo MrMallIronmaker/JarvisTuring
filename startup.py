@@ -7,7 +7,7 @@ import sys
 # 3 User information is printed and displayed
 # 4 Debugging information is constantly printed.
 temp_verbosity = 2
-# verbosity is temporary because most of it should refer to utils.verbosity
+# verbosity is temporary because most of the script should refer to utils.verbosity
 
 command_line_args = sys.argv[1:]
 
@@ -28,7 +28,7 @@ if '-qq' in command_line_args:
 	temp_verbosity = 0
 
 print("Importing...")
-from jarvis import utils, facefind, espeak
+from jarvis import utils, facefind, espeak, ears
 vprint = utils.vprint
 utils.verbosity = temp_verbosity
 
@@ -38,6 +38,8 @@ fb_browser = facefind.fb_login("jarvis/facebook_login.txt")
 
 # 130 wpm, mbrola's en1 voice.
 voice = espeak.Voice(speaker="mb-en1", wpm=130)
+
+source = ears.ears_setup()
 
 # prompt loop
 continue_loop = True
@@ -54,6 +56,8 @@ while (continue_loop):
 			voice.speak("I'm sorry, I can't recognize you.")
 		else:
 			voice.speak("Welcome, {0}".format(person))
+	elif line == 'ears':
+		ears.recognize(source)
 	elif line == '':
 		continue
 	else:
