@@ -9,7 +9,6 @@ from re import search
 from os import remove
 from os.path import isfile
 
-
 def fb_login(id_file_name):
 	# startup
 	driver = webdriver.Firefox()
@@ -38,7 +37,7 @@ def fb_identify_face(driver, image_name, delete_photo=False):
 
 	driver.find_element(By.NAME, "composer_unpublished_photo[]").send_keys(image_name)
 
-	sleep(8) 
+	sleep(10) 
 	# wait for upload and for identification
 
 	source = driver.page_source

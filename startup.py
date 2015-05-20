@@ -30,9 +30,14 @@ if '-qq' in command_line_args:
 print("Importing...")
 from jarvis import utils, facefind, espeak, ears
 vprint = utils.vprint
-utils.verbosity = temp_verbosity
+utils.set_verbosity(temp_verbosity)
+print temp_verbosity
 
 print("Starting up...")
+# startup second display
+utils.camera_initialization()
+utils.make_display()
+
 # startup browser
 fb_browser = facefind.fb_login("jarvis/facebook_login.txt")
 
@@ -40,6 +45,7 @@ fb_browser = facefind.fb_login("jarvis/facebook_login.txt")
 voice = espeak.Voice(speaker="mb-en1", wpm=130)
 
 source = ears.ears_setup()
+cam = utils.Camera("/dev/video1", (640, 480))
 
 # prompt loop
 continue_loop = True
@@ -50,7 +56,7 @@ while (continue_loop):
 		continue_loop = False
 	elif line == 'face':
 		# get temp image, save to file
-		imgname = utils.quick_snapshot(directory="/home/mark/jarvis/Photos/")
+		imgname = utils.quick_snapshot(cam, directory="/home/mark/jarvis/Photos/")
 		person = facefind.fb_identify_face(fb_browser, imgname, delete_photo=True)
 		if person is None:
 			voice.speak("I'm sorry, I can't recognize you.")

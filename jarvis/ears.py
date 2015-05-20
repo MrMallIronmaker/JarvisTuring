@@ -35,6 +35,5 @@ def recognize(source):
  	    vprint(0, "Could not understand audio")
 
 if __name__ == "__main__":
-	r, source = ears_setup()
-	#sleep(1)
-	recognize(r, source)
+	source = ears_setup()
+	recognize(source)
