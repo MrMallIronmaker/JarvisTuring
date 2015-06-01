@@ -41,7 +41,7 @@ def fb_identify_face(driver, image_name, delete_photo=False):
 	# wait for upload and for identification
 
 	source = driver.page_source
-	naming = search('<i class="faceSuggestion"></i>(.*?)<', source)
+	naming = search('<i class="faceSuggestion"></i><span class="uiTokenText">(.*?)<', source)
 
 	if delete_photo:
 		remove(image_name)
@@ -54,3 +54,25 @@ def fb_identify_face(driver, image_name, delete_photo=False):
 		return None
 
 	return naming.group(1)
+
+if __name__ == "__main__":
+	import utils, espeak, ears
+	# startup second display
+	utils.camera_initialization()
+	#utils.make_display()
+	cam = utils.Camera("/dev/video1", (640, 480))
+	# get temp image, save to file
+	imgname = utils.quick_snapshot(cam)
+
+	# startup browser
+	fb_browser = fb_login("facebook_login.txt")
+
+	# 130 wpm, mbrola's en1 voice.
+	voice = espeak.Voice(speaker="mb-en1", wpm=130)
+	person = fb_identify_face(fb_browser, imgname, delete_photo=True)
+	print person
+	if person is None:
+		voice.speak("I'm sorry, I can't recognize you.")
+	else:
+		voice.speak("Welcome, {0}".format(person))
+	fb_browser.quit();
